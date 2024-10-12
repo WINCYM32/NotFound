@@ -33,6 +33,9 @@ This page is a repository where I share my projects and experiments. The project
 - **Status**: In development / Completed.
 - **Link**: [Project Link](Project URL)
 
+## Contact:
+- **Mail**: Scratchnextbots@Outlook.com <--- Developer
+
 ## Getting Started
 
 To start working with my projects, follow these steps:
@@ -40,5 +43,3 @@ To start working with my projects, follow these steps:
 1. Clone the repository:
 ```bash
 git clone https://github.com/WINCYM32/NotFound
-
-## Contact
