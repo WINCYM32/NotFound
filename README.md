@@ -15,23 +15,17 @@ This page is a repository where I share my projects and experiments. The project
 
 ## Featured Projects
 
-### 1. Project 1: [Project Name]
-- **Description**: Brief description of what the project does.
-- **Technologies Used**: C++, GDI, etc.
-- **Status**: In development / Completed.
+### 1. Project 1: [NotFound]
+- **Description**: This is where I work on my main page, with different programming languages. Thanks to: [https://github.com/khang-nd] , for publishing your page information: [https://khang-nd.github.io/7.css/] , To give a nice nostalgic style to my Web page.
+- **Technologies Used**: Css, HTML, Dll,etc.
+- **Status**: In development.
 - **Link**: [Project Link](Project URL)
 
-### 2. Project 2: [Project Name]
-- **Description**: Brief description of what the project does.
-- **Technologies Used**: C++, GDI, etc.
+### 2. Project 2: [ ]
+- **Description**:
+- **Technologies Used**: 
 - **Status**: In development / Completed.
-- **Link**: [Project Link](Project URL)
-
-### 3. Project 3: [Project Name]
-- **Description**: Brief description of what the project does.
-- **Technologies Used**: C++, GDI, etc.
-- **Status**: In development / Completed.
-- **Link**: [Project Link](Project URL)
+- **Link**:
 
 ## Contact:
 - **Mail**: Scratchnextbots@Outlook.com <--- Developer
