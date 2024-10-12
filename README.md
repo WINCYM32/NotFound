@@ -7,7 +7,6 @@ Welcome to my projects page. Here you will find a collection of my programming a
 - [Description](#description)
 - [Featured Projects](#featured-projects)
 - [Getting Started](#getting-started)
-- [Contributions](#contributions)
 - [Contact](#contact)
 
 ## Description
@@ -41,3 +40,5 @@ To start working with my projects, follow these steps:
 1. Clone the repository:
 ```bash
 git clone https://github.com/WINCYM32/NotFound
+
+# Contact
