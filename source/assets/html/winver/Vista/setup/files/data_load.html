@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.75, user-scalable=no">
+    <title>Saving data.</title>
+    <link rel="icon" href="https://github.com/WINCYM32/NotFound/raw/refs/heads/gh-pages/source/assets/icons/vista/Applications/App050.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://unpkg.com/7.css">
+    <style>
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('https://github.com/WINCYM32/NotFound/raw/refs/heads/gh-pages/source/assets/fonts/SegoeUI.ttf') format('truetype');
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background-image: url('https://github.com/WINCYM32/NotFound/raw/refs/heads/gh-pages/source/assets/backgrounds/background_cli.bmp');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            padding-bottom: 40px;
+            overflow: hidden; /* Esconde el desplazamiento */
+            cursor: none; /* Esconde el cursor */
+        }
+
+        .animate {
+            width: 100%;
+            height: 10px; 
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .animate div {
+            height: 100%;
+            background: rgba(0, 128, 0, 0.7);
+            width: 0; 
+            transition: width 1s;
+        }
+
+        .message {
+            margin-top: 10px; 
+            font-size: 18px; 
+        }
+
+        .tip {
+            text-align: center; 
+            margin-top: 20px; 
+            font-size: 24px; /* Aumentar el tamaño del texto */
+            display: block; 
+            position: relative; 
+            transform: translate(20px, -10px); /* Mover hacia la derecha y arriba */
+            animation: changeIcon 3s infinite; /* Animación de cambio de icono */
+        }
+
+        .icon {
+            margin-top: 15px; 
+            display: inline-block; 
+            animation: rotateIcon 3s infinite; /* Animación de rotación del icono */
+        }
+
+        .typing {
+            border-right: 2px solid rgba(255, 255, 255, 0.8);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 4s steps(30, end), blink 0.75s step-end infinite;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: inline-block; 
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%; 
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        @keyframes changeIcon {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes rotateIcon {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(20deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+    <div class="content">
+        <div class="tip typing"></div>
+        <div class="icon">
+            <img id="tipIcon" src="https://github.com/WINCYM32/NotFound/raw/refs/heads/gh-pages/source/assets/icons/vista/Applications/App026.ico" alt="Tip Icon" width="64" height="64"> 
+        </div>
+    </div>
+
+    <div role="progressbar" class="animate">
+        <div style="width: 0%"></div>
+    </div>
+
+    <div class="message">Please wait while NotFound is saving your data.</div>
+
+    <script>
+        const messages = ['Saving data.', 'Saving data..', 'Saving data...'];
+        let index = 0;
+        let progress = 0;
+        let tips = []; // Array para almacenar los tips
+
+        // Función para cargar tips desde tips.log
+        async function loadTips() {
+            const response = await fetch('https://raw.githubusercontent.com/WINCYM32/NotFound/refs/heads/gh-pages/source/assets/html/winver/Vista/setup/files/Tips.log');
+            const data = await response.text();
+            const lines = data.split('\n');
+
+            // Procesa cada línea y extrae el texto y el icono
+            tips = lines.map(line => {
+                const trimmed = line.replace(/\"/g, '').trim();
+                const parts = trimmed.split('icon=');
+                return {
+                    text: parts[0].trim(), // El texto del tip
+                    icon: parts[1] ? parts[1].trim() : null // La URL del icono
+                };
+            }).filter(line => line.text.length > 0); // Filtra solo los tips con texto
+        }
+
+        // Llama a la función para cargar los tips al inicio
+        loadTips();
+
+        // Tips para mostrar
+        let tipIndex = 0;
+        let completionDelay = Math.random() * (3000 - 2000) + 2000; // Tiempo aleatorio entre 2 y 3 segundos
+
+        const interval = setInterval(() => {
+            // Cambia el título de la pestaña
+            document.title = messages[index];
+            index = (index + 1) % messages.length;
+
+            // Incrementa el ancho de la barra de progreso
+            if (progress < 100) {
+                progress += 100 / 30; // Aumenta en aproximadamente 3.33% cada segundo
+                document.querySelector('.animate div').style.width = `${progress}%`;
+            }
+
+            // Cuando la barra llega al 100%, redirige después del retraso
+            if (progress >= 100) {
+                clearInterval(interval); // Detiene el intervalo
+                setTimeout(() => {
+                    window.location.href = "https://wincym32.github.io/NotFound/source/assets/html/wbm.html";
+                }, completionDelay);
+            }
+
+            // Muestra el primer tip inmediatamente
+            if (tips.length > 0) {
+                const currentTip = tips[tipIndex];
+                const tipElement = document.querySelector('.tip');
+                tipElement.style.display = 'none'; 
+                tipElement.textContent = currentTip.text; // Actualiza el contenido del tip
+                tipElement.style.width = '0'; 
+                tipElement.classList.remove('typing'); 
+                setTimeout(() => {
+                    tipElement.classList.add('typing'); 
+                    tipElement.style.display = 'block'; 
+                }, 50);
+
+                // Cambiar el icono de acuerdo a la URL
+                if (currentTip.icon) {
+                    document.getElementById('tipIcon').src = currentTip.icon; // Obtiene la URL del icono
+                }
+
+                // Espera 4 segundos después de mostrar el tip y luego hace backspace
+                setTimeout(() => {
+                    tipElement.classList.remove('typing');
+                    tipElement.style.width = '100%'; // Para la animación de backspace
+                    tipElement.style.transition = 'width 1s'; // Añade la transición de backspace
+                    setTimeout(() => {
+                        tipElement.style.width = '0'; // Borrar el texto
+                        setTimeout(() => {
+                            tipIndex = (tipIndex + 1) % tips.length; // Cambia el índice del tip
+                        }, 1000); // Espera 1 segundo después de borrar
+                    }, 2000); // Mantiene el tip visible durante 1 segundo antes de borrar
+                }, 4000); // Espera 4 segundos antes de hacer backspace
+            }
+        }, 10000); // Cambia cada 10 segundos
+
+        // Llama a la función para iniciar la animación de los tips
+        setTimeout(() => {
+            const tipElement = document.querySelector('.tip');
+            tipElement.classList.add('typing'); 
+            tipElement.style.display = 'block'; 
+        }, 50);
+    </script>
+</body>
+</html>
